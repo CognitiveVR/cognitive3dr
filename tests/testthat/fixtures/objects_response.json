@@ -1,0 +1,46 @@
+[
+    {
+        "createdAt": 1579549253000,
+        "updatedAt": 1579549254000,
+        "id": 17266,
+        "versionId": 1583,
+        "name": "Power Console",
+        "meshName": "power_console",
+        "isController": null,
+        "sdkId": "dyn_obj_42",
+        "thumbnailLocation": "objects/power_console/cvr_object_thumbnail.png"
+    },
+    {
+        "createdAt": 1579549300000,
+        "updatedAt": 1579549301000,
+        "id": 17267,
+        "versionId": 1584,
+        "name": "Tutorial Board",
+        "meshName": "tutorial_board",
+        "isController": null,
+        "sdkId": "obj_abc",
+        "thumbnailLocation": "objects/tutorial_board/cvr_object_thumbnail.png"
+    },
+    {
+        "createdAt": 1579549400000,
+        "updatedAt": 1579549401000,
+        "id": 17268,
+        "versionId": 1585,
+        "name": "Info Panel",
+        "meshName": "info_panel",
+        "isController": null,
+        "sdkId": "obj_def",
+        "thumbnailLocation": "objects/info_panel/cvr_object_thumbnail.png"
+    },
+    {
+        "createdAt": 1579549500000,
+        "updatedAt": 1579549501000,
+        "id": 17269,
+        "versionId": 1586,
+        "name": "Checkout Button",
+        "meshName": "checkout_btn",
+        "isController": null,
+        "sdkId": "checkout_btn",
+        "thumbnailLocation": "objects/checkout_btn/cvr_object_thumbnail.png"
+    }
+]

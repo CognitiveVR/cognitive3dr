@@ -1,0 +1,25 @@
+[
+  [
+    { "count": 5, "skipped": false, "value": "0" },
+    { "count": 3, "skipped": false, "value": "1" }
+  ],
+  [
+    { "count": 2, "skipped": false, "value": "7" },
+    { "count": 4, "skipped": false, "value": "10" },
+    { "count": 1, "skipped": false, "value": "5" }
+  ],
+  [
+    { "count": 4, "skipped": false, "value": "0" },
+    { "count": 3, "skipped": false, "value": "1" },
+    { "count": 1, "skipped": false, "value": "2" },
+    { "count": 1, "skipped": false, "value": "3" }
+  ],
+  [
+    { "count": 6, "skipped": false, "value": "1" },
+    { "count": 2, "skipped": false, "value": "0" }
+  ],
+  [
+    { "count": 7, "skipped": false, "value": "0" },
+    { "count": 1, "skipped": true, "value": null }
+  ]
+]

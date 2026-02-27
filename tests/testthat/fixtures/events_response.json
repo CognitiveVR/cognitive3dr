@@ -1,0 +1,126 @@
+{
+    "count": 3,
+    "pages": 1,
+    "currentPage": 0,
+    "results": [
+        {
+            "sessionId": "1770998222_b7b62b867ee75a7b9145bf9dc9a7062b",
+            "projectId": 4460,
+            "organizationId": 76,
+            "participantId": "24162283756688623",
+            "date": "2026-02-13T15:57:02.425Z",
+            "endDate": "2026-02-13T16:01:11.917Z",
+            "duration": 249492,
+            "hmd": "Head Tracking - OpenXR",
+            "user": "b7b62b867ee75a7b9145bf9dc9a7062b",
+            "deviceId": "b7b62b867ee75a7b9145bf9dc9a7062b",
+            "userKey": "24162283756688623",
+            "eventsLimited": false,
+            "events": [
+                {
+                    "name": "c3d.sessionStart",
+                    "date": "2026-02-13T15:57:02.425Z",
+                    "x": 0.5,
+                    "y": 1.2,
+                    "z": -3.0,
+                    "object": null,
+                    "parentSceneVersionId": 1001,
+                    "properties": {
+                        "hook": "session_start",
+                        "participantId": "24162283756688623"
+                    }
+                },
+                {
+                    "name": "c3d.exitpoll",
+                    "date": "2026-02-13T15:58:30.100Z",
+                    "x": 1.0,
+                    "y": 1.5,
+                    "z": -2.5,
+                    "object": null,
+                    "parentSceneVersionId": 1001,
+                    "properties": {
+                        "hook": "exit_poll",
+                        "questionSetId": "qs_001",
+                        "Answer0": 3,
+                        "Answer1": 5,
+                        "Answer2": 2,
+                        "duration": 45.2
+                    }
+                },
+                {
+                    "name": "c3d.power",
+                    "date": "2026-02-13T15:59:00.000Z",
+                    "x": 2.0,
+                    "y": 0.8,
+                    "z": -1.0,
+                    "object": "dyn_obj_42",
+                    "parentSceneVersionId": 1001,
+                    "properties": {
+                        "Power": 85.5,
+                        "Reason": "battery_check",
+                        "ispaused": false
+                    }
+                }
+            ]
+        },
+        {
+            "sessionId": "1770916397_9b19b3c0eabb4a76d486b0d1eb96a87d",
+            "projectId": 4460,
+            "organizationId": 76,
+            "participantId": "29753982660912975",
+            "date": "2026-02-12T17:13:17.854Z",
+            "endDate": "2026-02-12T17:18:22.358Z",
+            "duration": 304504,
+            "hmd": "Head Tracking - OpenXR",
+            "user": "9b19b3c0eabb4a76d486b0d1eb96a87d",
+            "deviceId": "9b19b3c0eabb4a76d486b0d1eb96a87d",
+            "userKey": "29753982660912975",
+            "eventsLimited": true,
+            "events": [
+                {
+                    "name": "c3d.tracking",
+                    "date": "2026-02-12T17:14:00.000Z",
+                    "x": 0.0,
+                    "y": 1.7,
+                    "z": 0.0,
+                    "object": null,
+                    "parentSceneVersionId": 1002,
+                    "properties": {
+                        "Angle from HMD": 15.3,
+                        "Height from HMD": 0.2,
+                        "Now Tracking": "hands",
+                        "Previously Tracking": "controllers"
+                    }
+                },
+                {
+                    "name": "c3d.sessionEnd",
+                    "date": "2026-02-12T17:18:22.358Z",
+                    "x": 0.1,
+                    "y": 1.6,
+                    "z": 0.1,
+                    "object": null,
+                    "parentSceneVersionId": 1002,
+                    "properties": {
+                        "ExitCode": 0,
+                        "sessionlength": 305.0
+                    }
+                }
+            ]
+        },
+        {
+            "sessionId": "1770900000_empty_session",
+            "projectId": 4460,
+            "organizationId": 76,
+            "participantId": "00000000000000000",
+            "date": "2026-02-12T12:00:00.000Z",
+            "endDate": "2026-02-12T12:05:00.000Z",
+            "duration": 300000,
+            "hmd": "Head Tracking - OpenXR",
+            "user": "empty_device_hash",
+            "deviceId": "empty_device_hash",
+            "userKey": "empty_user_key",
+            "eventsLimited": false,
+            "events": []
+        }
+    ]
+}

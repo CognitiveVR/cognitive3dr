@@ -1,0 +1,90 @@
+[
+  {
+    "id": 268,
+    "name": "Complete Tutorial",
+    "enabled": true,
+    "objectiveVersions": [
+      {
+        "id": 829,
+        "isActive": true,
+        "objectiveComponents": [
+          {
+            "sequenceNumber": 1,
+            "type": "eventstep",
+            "eventName": "c3d.tutorial.start",
+            "name": "Start Tutorial",
+            "isStep": true
+          },
+          {
+            "sequenceNumber": 2,
+            "type": "gazestep",
+            "dynamicObjectIds": ["obj_abc", "obj_def"],
+            "name": "Look at Object",
+            "isStep": true
+          },
+          {
+            "sequenceNumber": 3,
+            "type": "eventstep",
+            "eventName": "c3d.tutorial.finish",
+            "name": "Finish Tutorial",
+            "isStep": true
+          }
+        ]
+      },
+      {
+        "id": 801,
+        "isActive": false,
+        "objectiveComponents": [
+          {
+            "sequenceNumber": 1,
+            "type": "eventstep",
+            "eventName": "c3d.tutorial.start",
+            "name": "Start Tutorial v1",
+            "isStep": true
+          },
+          {
+            "sequenceNumber": 2,
+            "type": "eventstep",
+            "eventName": "c3d.tutorial.finish",
+            "name": "Finish Tutorial v1",
+            "isStep": true
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": 310,
+    "name": "Navigate to Checkout",
+    "enabled": true,
+    "objectiveVersions": [
+      {
+        "id": 900,
+        "isActive": true,
+        "objectiveComponents": [
+          {
+            "sequenceNumber": 1,
+            "type": "eventstep",
+            "eventName": "c3d.nav.open_menu",
+            "name": "Open Menu",
+            "isStep": true
+          },
+          {
+            "sequenceNumber": 2,
+            "type": "exitpollstep",
+            "exitpollQuestionSetId": "assessment_end_survey:1",
+            "name": "End Survey",
+            "isStep": true
+          },
+          {
+            "sequenceNumber": 3,
+            "type": "fixationstep",
+            "dynamicObjectIds": ["checkout_btn"],
+            "name": "Reach Checkout",
+            "isStep": true
+          }
+        ]
+      }
+    ]
+  }
+]

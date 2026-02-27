@@ -1,0 +1,170 @@
+<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+# cognitive3dr
+
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/CognitiveVR/cognitive3dr/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/CognitiveVR/cognitive3dr/actions/workflows/R-CMD-check.yaml)
+<!-- badges: end -->
+
+`cognitive3dr` is an R client for the
+[Cognitive3D](https://cognitive3d.com) analytics API. It turns raw JSON
+responses into tidy tibbles ready for analysis, handling authentication,
+pagination, property flattening, name resolution, and type coercion so
+you can go from API key to analysis-ready data in a few lines of code.
+
+## Installation
+
+You can install the development version of cognitive3dr from
+[GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("CognitiveVR/cognitive3dr")
+```
+
+## Quick Start
+
+``` r
+library(cognitive3dr)
+
+# Authenticate and set project
+c3d_auth()            # prompts for API key (or reads C3D_API_KEY env var)
+c3d_project(4460)     # set default project ID
+
+# Pull data
+sessions <- c3d_sessions(n = 100)
+events   <- c3d_events()
+results  <- c3d_objective_results(include_steps = TRUE)
+polls    <- c3d_exitpoll()
+```
+
+## Data Streams
+
+| Function | Description | Key output columns |
+|---|---|---|
+| `c3d_sessions()` | Session-level metrics and properties | `session_id`, `duration_s`, `hmd`, `c3d_metrics_*`, `c3d_device_*`, `c3d_geo_*` |
+| `c3d_sessions(session_type = "scene")` | Sessions split by scene visited — one row per session-scene | Adds `scene_id`, `scene_version_id`, `scene_name` |
+| `c3d_events()` | One row per in-session event with session context | `event_name`, `event_date`, `position_x/y/z`, `object`, `scene_name`, `prop_*` |
+| `c3d_objective_results()` | Objective success/failure counts | `objective_name`, `version_number`, `succeeded`, `failed`, `completion_rate` |
+| `c3d_objective_results(include_steps = TRUE)` | Step-level detail for each objective | Adds `step_name`, `step_type`, `step_detail`, `avg_completion_time_s` |
+| `c3d_exitpoll()` | Exit poll survey responses | `question_title`, `answer`, `answer_label`, per hook/version |
+
+## Sessions
+
+Retrieve session-level data with optional date filtering and compact/full
+column modes.
+
+``` r
+# Last 30 days, compact columns (default)
+sessions <- c3d_sessions(n = 100)
+
+# Custom date range, all columns
+sessions <- c3d_sessions(
+  n = 50,
+  start_date = "2025-01-01",
+  end_date = "2025-06-01",
+  compact = FALSE
+)
+```
+
+### Scene Sessions
+
+Use `session_type = "scene"` to get session data broken out by scene —
+one row per session-scene combination. This is useful for comparing
+metrics across scenes within the same session. Defaults to the latest
+version of each scene.
+
+``` r
+# All scenes, latest versions (default)
+scene_sessions <- c3d_sessions(session_type = "scene")
+
+# Filter to a specific scene
+scene_sessions <- c3d_sessions(
+  session_type = "scene",
+  scene_id = "de704574-b03f-424e-be87-4985f85ed2e8"
+)
+
+# Filter to a specific scene version
+scene_sessions <- c3d_sessions(
+  session_type = "scene",
+  scene_version_id = 7011
+)
+```
+
+## Events
+
+Retrieve per-event data with session context attached. Events are
+unnested from sessions — one row per event. Dynamic object IDs are
+resolved to friendly names, and scene version IDs are resolved to scene
+names.
+
+``` r
+events <- c3d_events(
+  start_date = "2025-01-01",
+  max_sessions = 20
+)
+```
+
+## Objective Results
+
+Query objective success/failure counts, optionally sliced by version
+with step-level detail.
+
+``` r
+# Aggregated by objective
+results <- c3d_objective_results()
+
+# By version with step detail
+detailed <- c3d_objective_results(
+  slice_by = "objective_version",
+  include_steps = TRUE
+)
+detailed$objectives
+detailed$steps
+```
+
+## Exit Polls
+
+Retrieve exit poll response counts across all hooks and versions.
+Returns one row per response option per question per version, with
+human-readable value labels.
+
+``` r
+# All hooks and versions
+polls <- c3d_exitpoll()
+
+# Filter to a specific hook and version
+polls <- c3d_exitpoll(hook = "end_questions", version = 3)
+```
+
+## Key Features
+
+- **Compact mode** — `c3d_sessions(compact = TRUE)` (default) returns
+  \~40 curated columns; `compact = FALSE` returns everything
+- **Scene sessions** — `session_type = "scene"` queries the latest
+  version of each scene by default, giving the full project picture
+  split by scene
+- **Automatic name resolution** — dynamic object SDK IDs are resolved
+  to friendly names in events and objective steps; scene version IDs
+  are resolved to scene names
+- **Date defaults** — all functions default to the last 30 days when no
+  date range is specified
+- **Column naming** — top-level API fields use `snake_case`;
+  Cognitive3D properties retain their `c3d_` prefix (e.g.,
+  `c3d_metrics_fps_score`)
+- **Progress indicators** — `cli` progress bars for paginated and
+  multi-step API calls
+- **Session filtering** — `exclude_test`, `exclude_idle`,
+  `min_duration` parameters across functions
+
+## Common Options
+
+All data-fetching functions support these session filters:
+
+- `exclude_test` / `exclude_idle` — filter out test and junk sessions
+  (default `TRUE`)
+- `start_date` / `end_date` — date range as `Date`, `POSIXct`, or
+  `"YYYY-MM-DD"` string
+- `min_duration` — minimum session duration in seconds
+- `project_id` — override the default set by `c3d_project()`

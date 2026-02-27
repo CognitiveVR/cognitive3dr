@@ -1,0 +1,23 @@
+[
+  {
+    "step": 1,
+    "succeeded": 80,
+    "failed": 20,
+    "averageStepCompletionTime": 3000.0,
+    "averageStepDuration": 500.0
+  },
+  {
+    "step": 2,
+    "succeeded": 60,
+    "failed": 40,
+    "averageStepCompletionTime": 12000.0,
+    "averageStepDuration": 6000.0
+  },
+  {
+    "step": 3,
+    "succeeded": 50,
+    "failed": 50,
+    "averageStepCompletionTime": 20000.0,
+    "averageStepDuration": 4000.0
+  }
+]

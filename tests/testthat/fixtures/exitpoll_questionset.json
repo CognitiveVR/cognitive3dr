@@ -1,0 +1,96 @@
+[
+  {
+    "id": "end_questions:2",
+    "projectId": 2797,
+    "name": "end_questions",
+    "customerId": "placeholder",
+    "status": "active",
+    "title": "End Feedback v2",
+    "version": 2,
+    "questions": [
+      {
+        "type": "BOOLEAN",
+        "saveToSession": false,
+        "propertyLabel": null,
+        "title": "Were you standing during this session?"
+      },
+      {
+        "type": "SCALE",
+        "saveToSession": false,
+        "propertyLabel": null,
+        "title": " How comfortable was the experience?",
+        "minLabel": "Not Comfortable",
+        "maxLabel": "Most Comfortable",
+        "range": { "start": 1, "end": 10 }
+      },
+      {
+        "type": "MULTIPLE",
+        "saveToSession": false,
+        "propertyLabel": null,
+        "title": " What is your gender?",
+        "answers": [
+          { "icon": null, "answer": "Female" },
+          { "icon": null, "answer": "Male" },
+          { "icon": null, "answer": "Prefer not to say" }
+        ]
+      },
+      {
+        "type": "HAPPYSAD",
+        "saveToSession": false,
+        "propertyLabel": null,
+        "title": " How did you feel about the experience?"
+      }
+    ]
+  },
+  {
+    "id": "end_questions:3",
+    "projectId": 2797,
+    "name": "end_questions",
+    "customerId": "placeholder",
+    "status": "active",
+    "title": "End Feedback v3",
+    "version": 3,
+    "questions": [
+      {
+        "type": "BOOLEAN",
+        "saveToSession": false,
+        "propertyLabel": null,
+        "title": "Were you standing during this session?"
+      },
+      {
+        "type": "SCALE",
+        "saveToSession": false,
+        "propertyLabel": null,
+        "title": "How comfortable was the experience?",
+        "minLabel": "Not Comfortable",
+        "maxLabel": "Most Comfortable",
+        "range": { "start": 1, "end": 10 }
+      },
+      {
+        "type": "MULTIPLE",
+        "saveToSession": false,
+        "propertyLabel": null,
+        "title": "What is your gender?",
+        "answers": [
+          { "icon": null, "answer": "Female" },
+          { "icon": null, "answer": "Male" },
+          { "icon": null, "answer": "Prefer not to say" },
+          { "icon": null, "answer": "Nonbinary" }
+        ]
+      },
+      {
+        "type": "THUMBS",
+        "saveToSession": false,
+        "propertyLabel": null,
+        "title": "Would you recommend this experience?"
+      },
+      {
+        "type": "VOICE",
+        "saveToSession": false,
+        "propertyLabel": null,
+        "title": "Any additional feedback?",
+        "maxResponseLength": 10
+      }
+    ]
+  }
+]

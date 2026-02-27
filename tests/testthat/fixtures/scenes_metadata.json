@@ -1,0 +1,81 @@
+{
+  "createdAt": 1697668585000,
+  "updatedAt": 1724364287000,
+  "id": 2797,
+  "organizationId": 76,
+  "name": "Sample Game Project",
+  "scenes": [
+    {
+      "createdAt": 1701208254000,
+      "updatedAt": 1770336068000,
+      "id": "de704574-b03f-424e-be87-4985f85ed2e8",
+      "versions": [
+        {
+          "createdAt": 1724363281000,
+          "updatedAt": 1724363281000,
+          "id": 7011,
+          "sceneId": "de704574-b03f-424e-be87-4985f85ed2e8",
+          "versionNumber": 4,
+          "scale": 1.0,
+          "sdkVersion": "1.5.2",
+          "sceneFileType": "gltf"
+        },
+        {
+          "createdAt": 1701208254000,
+          "updatedAt": 1701208254000,
+          "id": 5356,
+          "sceneId": "de704574-b03f-424e-be87-4985f85ed2e8",
+          "versionNumber": 1,
+          "scale": 1.0,
+          "sdkVersion": "1.4.0",
+          "sceneFileType": "gltf"
+        },
+        {
+          "createdAt": 1702077117000,
+          "updatedAt": 1702077117000,
+          "id": 5460,
+          "sceneId": "de704574-b03f-424e-be87-4985f85ed2e8",
+          "versionNumber": 2,
+          "scale": 1.0,
+          "sdkVersion": "1.4.0",
+          "sceneFileType": "gltf"
+        }
+      ],
+      "projectId": 2797,
+      "sceneName": "Level 0 - User Onboarding",
+      "isPublic": false,
+      "hidden": false
+    },
+    {
+      "createdAt": 1700000721000,
+      "updatedAt": 1770336068000,
+      "id": "f6ffe056-f92e-4431-a863-7eedc6592423",
+      "versions": [
+        {
+          "createdAt": 1724360419000,
+          "updatedAt": 1724360419000,
+          "id": 7008,
+          "sceneId": "f6ffe056-f92e-4431-a863-7eedc6592423",
+          "versionNumber": 15,
+          "scale": 1.0,
+          "sdkVersion": "1.5.3",
+          "sceneFileType": "gltf"
+        },
+        {
+          "createdAt": 1700000721000,
+          "updatedAt": 1700000721000,
+          "id": 5260,
+          "sceneId": "f6ffe056-f92e-4431-a863-7eedc6592423",
+          "versionNumber": 1,
+          "scale": 1.0,
+          "sdkVersion": "1.3.7",
+          "sceneFileType": "gltf"
+        }
+      ],
+      "projectId": 2797,
+      "sceneName": "Level 1 - Fantasy Environment",
+      "isPublic": false,
+      "hidden": false
+    }
+  ]
+}

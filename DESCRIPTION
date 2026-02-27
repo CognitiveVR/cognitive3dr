@@ -1,0 +1,26 @@
+Package: cognitive3dr
+Title: Query Cognitive3D Session Analytics Data
+Version: 0.1.0
+Authors@R:
+    person("Nicki", "Anderson", , "support@cognitive3d.com", role = c("aut", "cre"))
+Description: Provides an R interface for querying session-level analytics data
+    from the Cognitive3D API. Includes authentication, pagination, and tidy data
+    output for VR/XR session metrics. Extract session properties, events, objective 
+    results, and exitpoll data for comprehensive analysis of user behavior in 
+    immersive experiences.
+License: file LICENSE
+Depends: R (>= 4.1.0)
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Suggests: 
+    testthat (>= 3.0.0),
+    withr
+Config/testthat/edition: 3
+Imports: 
+    cli,
+    dplyr,
+    httr2,
+    jsonlite,
+    rlang,
+    tibble
