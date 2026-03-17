@@ -15,7 +15,6 @@ name: version-bump
 
 permissions:
   contents: write
-  pull-requests: write
 
 jobs:
   bump-version:
@@ -24,7 +23,7 @@ jobs:
     steps:
       - uses: actions/checkout@v4
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.VERSION_BUMP_TOKEN }}
 
       - uses: r-lib/actions/setup-r@v2
         with:
@@ -45,17 +44,14 @@ jobs:
           cat(sprintf("new_version=%s\n", version), file = Sys.getenv("GITHUB_OUTPUT"))
         shell: Rscript {0}
 
-      - name: Create PR with version bump
+      - name: Commit, tag, and push
         run: |
-          BRANCH="version-bump/${{ steps.bump.outputs.new_version }}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git checkout -b "$BRANCH"
           git add -A
           git commit -m "Bump version to ${{ steps.bump.outputs.new_version }}"
-          git push -u origin "$BRANCH"
-          gh pr create \
-            --title "Bump version to ${{ steps.bump.outputs.new_version }}" \
-            --body "Automated ${{ inputs.bump }} version bump to ${{ steps.bump.outputs.new_version }}."
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          if [ "${{ inputs.bump }}" != "dev" ]; then
+            git tag "v${{ steps.bump.outputs.new_version }}"
+          fi
+          git push
+          git push --tags
