@@ -31,12 +31,14 @@ jobs:
 
       - name: Install usethis
         run: |
-          install.packages("usethis")
+          install.packages(c("usethis", "withr"))
         shell: Rscript {0}
 
       - name: Bump version
         id: bump
         run: |
+          options(usethis.quiet = FALSE)
+          withr::local_options(list(rlang_interactive = FALSE))
           usethis::use_version("${{ inputs.bump }}")
           version <- as.character(read.dcf("DESCRIPTION")[, "Version"])
           cat(sprintf("new_version=%s\n", version), file = Sys.getenv("GITHUB_OUTPUT"))
