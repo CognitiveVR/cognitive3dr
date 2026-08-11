@@ -1,57 +1,115 @@
-on:
-  workflow_dispatch:
-    inputs:
-      bump:
-        description: "Version bump type"
-        required: true
-        type: choice
-        options:
-          - patch
-          - minor
-          - major
-          - dev
+name: Version Bump
 
-name: version-bump
+on:
+  push:
+    branches: [main]
 
 permissions:
   contents: write
+  pull-requests: write
 
 jobs:
-  bump-version:
+  version-bump:
+    if: "!startsWith(github.event.head_commit.message, 'chore: bump version')"
     runs-on: ubuntu-latest
 
     steps:
       - uses: actions/checkout@v4
         with:
+          fetch-depth: 0
           token: ${{ secrets.VERSION_BUMP_TOKEN }}
 
-      - uses: r-lib/actions/setup-r@v2
-        with:
-          use-public-rspm: true
-
-      - name: Install usethis
-        run: |
-          install.packages(c("usethis", "withr"))
-        shell: Rscript {0}
-
-      - name: Bump version
+      - name: Determine version bump type
         id: bump
         run: |
-          options(usethis.quiet = FALSE)
-          withr::local_options(list(rlang_interactive = FALSE))
-          usethis::use_version("${{ inputs.bump }}")
-          version <- as.character(read.dcf("DESCRIPTION")[, "Version"])
-          cat(sprintf("new_version=%s\n", version), file = Sys.getenv("GITHUB_OUTPUT"))
-        shell: Rscript {0}
+          # Get commit messages from this push
+          COMMITS=$(git log --format="%s" ${{ github.event.before }}..${{ github.event.after }})
 
-      - name: Commit, tag, and push
+          BUMP="none"
+
+          # Check for breaking changes (major)
+          if echo "$COMMITS" | grep -qE "^(feat|fix|refactor|perf)(\(.+\))?!:|BREAKING CHANGE"; then
+            BUMP="major"
+          # Check for new features (minor)
+          elif echo "$COMMITS" | grep -qE "^feat(\(.+\))?:"; then
+            BUMP="minor"
+          # Check for fixes, refactors, perf improvements (patch)
+          elif echo "$COMMITS" | grep -qE "^(fix|perf|refactor)(\(.+\))?:"; then
+            BUMP="patch"
+          fi
+
+          echo "type=$BUMP" >> "$GITHUB_OUTPUT"
+          echo "Bump type: $BUMP"
+
+      - name: Bump version in DESCRIPTION
+        if: steps.bump.outputs.type != 'none'
+        id: version
         run: |
+          BUMP_TYPE=${{ steps.bump.outputs.type }}
+
+          # Extract current version
+          CURRENT=$(grep "^Version:" DESCRIPTION | sed 's/Version: //')
+          IFS='.' read -r MAJOR MINOR PATCH <<< "$CURRENT"
+
+          case $BUMP_TYPE in
+            major) MAJOR=$((MAJOR + 1)); MINOR=0; PATCH=0 ;;
+            minor) MINOR=$((MINOR + 1)); PATCH=0 ;;
+            patch) PATCH=$((PATCH + 1)) ;;
+          esac
+
+          NEW_VERSION="${MAJOR}.${MINOR}.${PATCH}"
+          sed -i "s/^Version: .*/Version: ${NEW_VERSION}/" DESCRIPTION
+
+          echo "Bumped version: $CURRENT -> $NEW_VERSION"
+          echo "new_version=$NEW_VERSION" >> "$GITHUB_OUTPUT"
+
+      - name: Create version bump PR
+        if: steps.bump.outputs.type != 'none'
+        env:
+          GH_TOKEN: ${{ secrets.VERSION_BUMP_TOKEN }}
+        run: |
+          NEW_VERSION=${{ steps.version.outputs.new_version }}
+          BRANCH="chore/bump-version-to-${NEW_VERSION}"
+
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add -A
-          git commit -m "Bump version to ${{ steps.bump.outputs.new_version }}"
-          if [ "${{ inputs.bump }}" != "dev" ]; then
-            git tag "v${{ steps.bump.outputs.new_version }}"
+          git checkout -b "$BRANCH"
+          git add DESCRIPTION
+          git commit -m "chore: bump version to ${NEW_VERSION}"
+          # Force-push: a prior failed run may have left a stale branch of the same name
+          git push --force origin "$BRANCH"
+
+          # Create the PR only if one isn't already open for this branch
+          if [ -z "$(gh pr list --head "$BRANCH" --state open --json number --jq '.[].number')" ]; then
+            gh pr create \
+              --title "chore: bump version to ${NEW_VERSION}" \
+              --body "Automated version bump to ${NEW_VERSION}" \
+              --base main \
+              --head "$BRANCH"
           fi
-          git push
-          git push --tags
+
+          # Merge commit (never squash). Main requires one approving review from a
+          # project member (public repo), so enable auto-merge and let the PR land
+          # once someone approves. Branch cleanup is handled by delete_branch_on_merge.
+          gh pr merge "$BRANCH" --auto --merge
+
+  # Once a bump PR's merge commit lands on main, tag the release.
+  tag:
+    if: contains(github.event.head_commit.message, 'chore/bump-version-')
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Tag release
+        run: |
+          VERSION=$(grep "^Version:" DESCRIPTION | sed 's/Version: //')
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Skip if the tag already exists (e.g. re-run of this workflow)
+          if ! git ls-remote --exit-code --tags origin "v${VERSION}" >/dev/null; then
+            git tag "v${VERSION}"
+            git push origin "v${VERSION}"
+          fi
