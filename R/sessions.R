@@ -383,6 +383,11 @@ to_epoch_ms <- function(x) {
 # --- Session response parsing ---
 
 # Column list for compact mode (~40 columns)
+#
+# Curated by hand — the registry does not carry per-package presentation
+# intent. It does carry lifecycle state, and test-compact-columns.R fails if
+# anything here is deprecated or sunsetted in the registry (see R/registry.R).
+# Data dropped from this list is still returned by compact = FALSE.
 compact_columns <- c(
   # Core session fields (top-level API fields)
   "session_id", "session_date", "end_date", "duration_s", "hmd", "device_id",
@@ -398,14 +403,12 @@ compact_columns <- c(
   "c3d_geo_country", "c3d_geo_subdivision", "c3d_geo_city",
   "c3d_roomsize_meters",
   # C3D properties: key metrics (top-level scores)
-  "c3d_metrics_fps_score", "c3d_metrics_app_performance",
-  "c3d_metrics_average_fps", "c3d_metrics_presence_score",
-  "c3d_metrics_immersion_score", "c3d_metrics_orientation_score",
-  "c3d_metrics_comfort_score", "c3d_metrics_ergonomics_score",
-  "c3d_metrics_battery_efficiency", "c3d_metrics_boundary_score",
-  "c3d_metrics_controller_events_score",
-  "c3d_metrics_controller_engagement_score",
-  "c3d_metrics_dynamic_engagement_score", "c3d_metrics_standing_percentage",
+  # c3d_metrics_average_fps: melder intends to delete the emission but the org
+  # dashboard tile still reads it, so the registry keeps it active. See
+  # cvr-cortex investigations/average-fps-intended-deletion-vs-live-consumer.md
+  # before removing it.
+  "c3d_metrics_fps_score", "c3d_metrics_average_fps",
+  "c3d_metrics_presence_score", "c3d_metrics_comfort_score",
   # C3D properties: metric components (sub-scores)
   "c3d_metric_components_fps_score_degree_app_performance",
   "c3d_metric_components_fps_score_consistency_app_performance",
@@ -422,6 +425,8 @@ compact_columns <- c(
   "c3d_metric_components_presence_score_interruption_score",
   "c3d_metric_components_presence_score_controller_movement_score",
   "c3d_metric_components_cyberwellness_visual_continuity",
+  # Replaces the retired c3d.metrics.standing_percentage compute
+  "c3d_metric_components_posture_standing_percentage",
   # C3D properties: session flags
   "c3d_session_tag_junk", "c3d_session_tag_test"
 )

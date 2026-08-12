@@ -140,7 +140,26 @@ test_that("participant_id is parsed", {
 test_that("comfort and engagement scores are parsed", {
   result <- parse_sessions(fixture$results, compact = TRUE)
   expect_equal(result$c3d_metrics_comfort_score[1], 74.34505247920842)
-  expect_equal(result$c3d_metrics_controller_engagement_score[1], 54.27067375518957)
+  # controller_engagement_score is deprecated in the registry, so it is no
+  # longer curated into compact output — still parsed in full mode.
+  full_result <- parse_sessions(fixture$results, compact = FALSE)
+  expect_equal(
+    full_result$c3d_metrics_controller_engagement_score[1],
+    54.27067375518957
+  )
+})
+
+test_that("columns dropped from compact are still returned in full mode", {
+  full_result <- parse_sessions(fixture$results, compact = FALSE)
+  for (column in c(
+    "c3d_metrics_app_performance",
+    "c3d_metrics_immersion_score",
+    "c3d_metrics_battery_efficiency",
+    "c3d_metrics_standing_percentage"
+  )) {
+    expect_false(column %in% compact_columns)
+    expect_true(column %in% names(full_result))
+  }
 })
 
 test_that("parse_sessions() handles empty input", {
