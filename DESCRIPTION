@@ -13,9 +13,10 @@ Depends: R (>= 4.1.0)
 Encoding: UTF-8
 Roxygen: list(markdown = TRUE)
 RoxygenNote: 7.3.3
-Suggests: 
+Suggests:
     testthat (>= 3.0.0),
-    withr
+    withr,
+    yaml
 Config/testthat/edition: 3
 Imports: 
     cli,
