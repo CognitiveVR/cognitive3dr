@@ -1,6 +1,6 @@
 Package: cognitive3dr
 Title: Query Cognitive3D Session Analytics Data
-Version: 0.1.1
+Version: 0.2.0
 Authors@R:
     person("Nicki", "Anderson", , "support@cognitive3d.com", role = c("aut", "cre"))
 Description: Provides an R interface for querying session-level analytics data
