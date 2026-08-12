@@ -14,10 +14,19 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+      # Mint a short-lived token as the c3d-version-bump GitHub App. Bump PRs are
+      # then authored by the app bot, so any team member (including whoever wrote
+      # the commits being released) can approve them.
+      - uses: actions/create-github-app-token@v2
+        id: app-token
+        with:
+          app-id: ${{ vars.VERSION_BUMP_APP_ID }}
+          private-key: ${{ secrets.VERSION_BUMP_APP_KEY }}
+
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          token: ${{ secrets.VERSION_BUMP_TOKEN }}
+          token: ${{ steps.app-token.outputs.token }}
 
       - name: Determine version bump type
         id: bump
@@ -66,7 +75,7 @@ jobs:
       - name: Create version bump PR
         if: steps.bump.outputs.type != 'none'
         env:
-          GH_TOKEN: ${{ secrets.VERSION_BUMP_TOKEN }}
+          GH_TOKEN: ${{ steps.app-token.outputs.token }}
         run: |
           NEW_VERSION=${{ steps.version.outputs.new_version }}
           BRANCH="chore/bump-version-to-${NEW_VERSION}"
