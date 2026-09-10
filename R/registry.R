@@ -14,7 +14,7 @@
 # in sync with the registry; test-compact-columns.R cross-checks them against
 # the YAML whenever a cvr-cortex checkout sits alongside this repo.
 #
-# Last synced against slicer_fields.yaml: 2026-08-12
+# Last synced against slicer_fields.yaml: 2026-09-10
 
 # Raw registry keys marked "deprecated: true".
 deprecated_registry_keys <- c(
@@ -29,6 +29,7 @@ deprecated_registry_keys <- c(
   "c3d.metric_components.vertical_reach_score",
   "c3d.metrics.app_performance",
   "c3d.metrics.battery_efficiency",
+  "c3d.metrics.boundary_relative_yaw",
   "c3d.metrics.boundary_score",
   "c3d.metrics.controller_engagement_score",
   "c3d.metrics.controller_ergonomic_score",
@@ -39,6 +40,7 @@ deprecated_registry_keys <- c(
   "c3d.metrics.immersion_score",
   "c3d.metrics.orientation_score",
   "c3d.metrics.standing_percentage",
+  "c3d.metrics.virtual_yaw",
   "c3d.participant.hmdHeight",
   "c3d.roomsize"
 )
